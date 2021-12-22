@@ -29,6 +29,7 @@ if [ -z "$username" ]; then
     exit 1
 fi
 
+<<'COMMENT'
 check=`echo newcerts/$username@*`
 if [ ! -d newcerts/$username -a "$check" == 'newcerts/'$username'@*' ]; then
     echo "no cert issued for $username"
@@ -55,6 +56,15 @@ if [ "$2" != "silent" ]; then
         echo "Aborted."
         exit 0
     fi
+fi
+COMMENT
+
+dir=$(ls newcerts/ |grep "${username}" |head -n 1|tr -d '\n')
+file=newcerts/${dir}/crt.pem
+
+if [ ! -f "$file" ]; then
+    echo "Error: ${file} is not exists"
+    exit 1
 fi
 
 openssl ca -config ../openssl.cnf -revoke $file

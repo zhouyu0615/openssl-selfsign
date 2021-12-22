@@ -55,10 +55,11 @@ mkdir -p $dir
 
 #subject="/C=US/ST=California/L=Las Vegas/O=$domain/OU=$domain/CN=$username/emailAddress=$username@$domain"
 # fill serial_no in the Country field, to make subject different for each cert.
-subject="/C=$serial_no/O=$domain/CN=$username/emailAddress=$username@$domain"
+subject="/C=CN/O=$domain/CN=$username"
 
 filename=$dir/$username
-pass=`head -c 32 /dev/urandom | md5sum | head -c 8`
+#pass=`head -c 32 /dev/urandom | md5sum | head -c 8`
+pass='123456'
 echo $pass > $dir/password
 
 openssl genrsa -out $dir/key.pem 2048
